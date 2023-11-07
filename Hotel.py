@@ -617,7 +617,6 @@ while True:
         print("enter a number from menu below")
         print("1 - register a guest \t\t 2 - room info \t\t 3 - guest info")
         print("4 - delete room from room info \t 5 - delete guest info \t 6 - update guest info")
-        print(len(list(room_info.items())))
         x = input()
 
         if error.just_number(x) == False:
