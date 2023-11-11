@@ -6,15 +6,6 @@ rooms = {1: (101, 102, 103, 104, 105), 2: (
 guest_info = {}
 room_info = {}
 
-def action(text) -> None:
-    print('\n' + text)
-    time.sleep(3)
-    os.system('cls')
-
-
-###################################################
- 
-    
 class Hotel:
     def __init__(self) -> None:
         self.room = rooms
@@ -26,102 +17,103 @@ class Hotel:
 
             # choosing room type
 
-            try:
-                room_type = input("enter room type: ")
-            except KeyboardInterrupt or EOFError:
-                action("enter a valid value")
-                temp = Hotel()
-                temp.register()
+            room_type = ''
+            flag, room_type = error.try_except(room_type, "enter room type: ")
+
+            if flag:
+                error.action("enter a valid value")
 
             # invalid room type
 
-            if error.just_number(room_type) == False or error.length(room_type, 1) == False:
-                action("invalid value")
+            else:
+                if error.just_number(room_type) == False or error.length(room_type, 1) == False:
+                    error.action("only number is allowed")
 
-            elif int(room_type) not in list(self.room.keys()):
-                action("invalid room number")
+                elif int(room_type) not in list(self.room.keys()):
+                    error.action("invalid room type")
+            
+                else:
+                    break
 
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+        while True:
 
             # choosing room number
 
-            try:
-                room_number = input("enter room number: ")
-            except KeyboardInterrupt or EOFError:
-                action("enter a valid value")
-                temp = Hotel()
-                temp.register()
+            room_number = ''
+            flag, room_number = error.try_except(room_number, "enter room number: ")
 
-            # invalid room number
-
-            if error.just_number(room_number) == False or error.length(room_number, 3) == False:
-                action("invalid value")
-
-            elif int(room_number) not in self.room[int(room_type)]:
-                action("wrong room number for room type")
-
-            # room is already in use
-
-            elif room_number in list(self.room_info.keys()):
-                action("the room number is already in use")
+            if flag:
+                error.action("enter a valid value")
 
             else:
-                break
+                # invalid room number
 
-        #######################################################
+                if error.just_number(room_number) == False or error.length(room_number, 3) == False:
+                    error.action("only number is allowed")
+
+                elif int(room_number) not in self.room[int(room_type)]:
+                    error.action("wrong room number for room type")
+
+                # room is already in use
+
+                elif room_number in list(self.room_info.keys()):
+                    error.action("the room number is already in use")
+
+                else:
+                    break
+
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         while True:
 
             # days
 
-            flag = False
-            try:
-                days = input("how many days: ") + "day"
-            except KeyboardInterrupt or EOFError:
-                action("enter a valid value")
-                flag = True
+            days = ''
+            flag, days = error.try_except(days, "how many days: ")
+
+            if flag:
+                error.action("enter a valid value")
+            days = days + "day(s)"
 
             if not flag:
 
                 # invalid number
 
                 if error.str_int(days) == False:
-                    action("invalid value")
+                    error.action("only number is allowed")
 
                 elif int(days[0]) <= 0:
-                    action("value must be greater than zero")
+                    error.action("value must be greater than zero")
                 else:
                     break
 
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         while True:
 
             # nights
 
-            try:
-                nights = input("how many nights: ") + "night"
-            except KeyboardInterrupt or EOFError:
-                action("enter a valid value")
-                flag = True
+            nights = ''
+            flag, nights = error.try_except(nights, "how many nights: ")
 
-            if not flag:
+            if flag:
+                error.action("enter a valid value")
 
+            else:
                 # invalid number
 
                 if error.str_int(nights) == False:
-                    action("invalid value")
+                    error.action("only number is allowed")
 
                 elif int(nights[0]) <= 0:
-                    action("value must be greater than zero")
+                    error.action("value must be greater than zero")
 
                 else:
                     break
 
-            else:
-                break
-
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         i = 0
         temp_dic = []                    # for adding more than one id number to a room number key
@@ -131,93 +123,86 @@ class Hotel:
                 
                 # entering first name
 
-                flag = False
+                f_name = ''     # f_name = first name
+                flag, f_name = error.try_except(f_name, "first name: ")
 
-                try:
-                    f_name = input("enter first name: ")        # f_name = first name
-                except KeyboardInterrupt or EOFError:
-                    action("enter a valid value")
-                    flag = True
+                if flag:
+                    error.action("enter a valid value")
 
-                if not flag:
-
+                else:
                     # invalid character for first name
 
                     if error.just_str(f_name) == False:
-                        action("invalid chracter for first name section")
+                        error.action("invalid chracter for first name section")
 
                     else:
                         break
 
-            #######################################################
+            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
             while True:
 
                 # entering last name
 
-                flag = False
-                try:
-                    l_name = input("enter last name: ")     # l_name = last name
-                except KeyboardInterrupt or EOFError:
-                    action("invalid value")
-                    flag = True
+                l_name = ''         # l_name = last name
+                flag, l_name = error.try_except(l_name, "last name: ")
 
-                if not flag:
+                if flag:
+                    error.action("enter a valid value")
+
+                else:
 
                     # invalid character for last name
 
                     if error.just_str(l_name) == False:
-                        action("invalid character for last name section")
+                            error.action("invalid character for last name section")
 
                     else:
                         break
 
-            #######################################################
+            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
             while True:
-                flag = False
 
                 # entering age
 
-                try:
-                    age = input("enter age: ")
-                except KeyboardInterrupt or EOFError:
-                    action("invalid value entered")
-                    flag = True
+                age = ''
+                flag, age = error.try_except(age, "enter age: ")
 
-                if not flag:
+                if flag:
+                    error.action("enter a valid value")
+
+                else:
 
                     # invalid chracter in age
 
                     if error.just_number(age) == False:
-                        action("Numbers Only")
-                    
+                        error.action("only number is allowed")
+                        
                     else:
                         break
 
-            #######################################################
+            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
             while True:
 
                 # entering id
 
-                flag = False
+                id = ''
+                flag, id = error.try_except(id, "enter id number: ")
 
-                try:
-                    id = input("enter id number: ")
-                except KeyboardInterrupt or EOFError:
-                    action("invalid value")
-                    flag = True
+                if flag:
+                    error.action("enter a valid value")
 
-                if not flag:
+                else:
 
                     # invalid character in id
 
                     if error.just_number(id) == False:
-                        action("Numbers Only")
+                        error.action("only number is allowed")
 
                     elif error.length(id, 9) == False:
-                        action("ID must be exactly nine digits long")
+                        error.action("ID must be exactly nine digits long")
 
                     else:
                         break
@@ -243,48 +228,49 @@ class Hotel:
 
             # choosing room type
 
-            try:
-                room_type = input("enter room type: ")
+            room_type = ''
+            flag, room_type = error.try_except(room_type, "enter room type: ")
 
-            except KeyboardInterrupt and EOFError:
-                action("enter a valid value")
-                temp = Hotel()
-                temp.register()
-
-            if error.just_number(room_type) == False or error.length(room_type, 1) == False:
-                action("invalid value")
-
-            # invalid room type
-
-            elif int(room_type) not in list(self.room.keys()):
-                action("invalid room number")
+            if flag:
+                error.action("enter a valid value")
 
             else:
-                break
 
-        #######################################################
+                if error.just_number(room_type) == False or error.length(room_type, 1) == False:
+                    error.action("only number is allowed")
+
+                # invalid room type
+
+                elif int(room_type) not in list(self.room.keys()):
+                    error.action("invalid room number")
+
+                else:
+                    break
+
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         while True:
 
             # choosing room number
 
-            try:
-                room_number = input("enter room number: ")
-            except KeyboardInterrupt:
-                action("enter a valid value")
-                temp = Hotel()
-                temp.register()
+            room_number = ''
+            flag, room_number = error.try_except(room_number, "enter room number: ")
 
-            # invalid room number
-
-            if error.just_number(room_number) == False or error.length(room_number, 3) == False:
-                action("invalid character in room number")
-
-            elif int(room_number) not in self.room[int(room_type)]:
-                action("wrong room number for room type")
+            if flag:
+                error.action("enter a valid value")
 
             else:
-                break
+
+                # invalid room number
+
+                if error.just_number(room_number) == False or error.length(room_number, 3) == False:
+                    error.action("invalid character in room number")
+
+                elif int(room_number) not in self.room[int(room_type)]:
+                    error.action("wrong room number for room type")
+
+                else:
+                    break
 
         try:
             print(self.room_info[room_number], '\n\n\n')
@@ -302,33 +288,32 @@ class Hotel:
 
         while True:
 
-            flag = False
             # entering id number
 
-            try:
-                id = input("enter id number: ")
-            except KeyboardInterrupt or EOFError:
-                action("invalid value")
-                flag = True
+            id = ''
+            flag, id = error.try_except(id, "enter id number: ")
 
-            if not flag:
+            if flag:
+                error.action("enter a valid value")
+
+            else:
 
                 # invalid id
 
                 if error.just_number(id) == False:
-                    action("Numbers Only")
-                
+                    error.action("only number is allowed")
+                    
                 elif error.length(id, 9) == False:
-                    action('ID Number must be of 8 digits')
+                    error.action('ID Number must be of 8 digits')
 
                 elif id not in self.guest.keys():
-                    action("no id number found")
+                    error.action("no id number found")
                     break
 
                 else:
                     print(self.guest[id])
                     break
-    
+        
 
     ######################################################
 
@@ -336,29 +321,28 @@ class Hotel:
     def delete_room(self) -> None:      # deleting room from room info
 
         while True:
-            
-            flag = False
 
             # entering room number
 
-            try:
-                room_number = input("enter room number: ")
-            except KeyboardInterrupt or EOFError:
-                action("enter a valid value")
-                flag = True
+            room_number = ''
+            flag, room_number = error.try_except(room_number, "enter room number: ")
 
-            if not flag:
+            if flag:
+                error.action("enter a valid value")
+
+            else:
+
                 # invalid room number
 
                 if error.just_number(room_number) == False or error.length(room_number, 3) == False:
-                    action("invalid value")
+                    error.action("only number is allowed")
 
                 elif room_number not in self.room_info.keys():
-                    action("no such Room Found")
+                    error.action("no such Room Found")
 
                 else:
                     self.room_info.pop(room_number, "no such room is in use")
-                    action("room info successfully deleted")        # success
+                    error.action("room info successfully deleted")        # success
                     break
     
 
@@ -369,32 +353,30 @@ class Hotel:
 
         while True:
 
-            flag = False
-
             # entering id number
 
-            try:
-                id = input("enter id number: ")
-            except KeyboardInterrupt or EOFError:
-                action("invalid value")
-                flag = True
+            id = ''
+            flag, id = error.try_except(id, "enter id number: ")
 
-            if not flag:
-                
+            if flag:
+                error.action("enter a valid value")
+
+            else:
+
                 # invalid id number
 
                 if error.just_number(id) == False:
-                    action("Numbers Only")
+                    error.action("only number is allowed")
 
                 elif error.length(id, 9) == False:
-                    action("ID must be exactly nine digits long")
+                    error.action("ID must be exactly nine digits long")
 
                 elif id not in self.guest.keys():
-                    action("No Such Guest Exists")
+                    error.action("No Such Guest Exists")
 
                 else:
                     self.guest.pop(id)
-                    action("guest info deleted successfully")        # success
+                    error.action("guest info deleted successfully")        # success
                     break
 
 
@@ -403,104 +385,102 @@ class Hotel:
 
         
     def change_id(self) -> None:
+
         while True:
-                
-            flag = False
 
-            try:
-                f_name = input("enter first name: ")        # f_name = first name
-            except KeyboardInterrupt or EOFError:
-                action("enter a valid value")
-                flag = True
+            # entering first name
 
-            if not flag:
+            f_name = ''     # f_name = first name
+            flag, f_name = error.try_except(f_name, "enter first name: ")
+
+            if flag:
+                error.action("enter a valid value")
+
+            else:
 
                 # invalid character for first name
 
                 if error.just_str(f_name) == False:
-                    action("invalid chracter for first name section")
+                    error.action("invalid chracter for first name section")
 
                 else:
                     break
 
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         while True:
 
             # entering last name
 
-            flag = False
-            try:
-                l_name = input("enter last name: ")     # l_name = last name
-            except KeyboardInterrupt or EOFError:
-                action("invalid value")
-                flag = True
+            l_name = ''
+            flag, l_name = error.try_except(l_name, "enter last name: ")
 
-            if not flag:
+            if flag:
+                error.action("enter a valid value")
+
+            else:
 
                 # invalid character for last name
 
                 if error.just_str(l_name) == False:
-                    action("invalid character for last name section")
+                    error.action("invalid character for last name section")
 
                 else:
                     break
 
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         while True:
-            flag = False
 
             # entering age
 
-            try:
-                age = input("enter age: ")
-            except KeyboardInterrupt or EOFError:
-                action("invalid value entered")
-                flag = True
+            age = ''
+            flag, age = error.try_except(age, "enter age: ")
 
-            if not flag:
+            if flag:
+                error.action("enter a valid value")
 
-                # invalid chracter in age
+            else:
+                
+                # invalid chracter for age
 
                 if error.just_number(age) == False:
-                    action("Numbers Only")
-                    
+                    error.action("only number is allowed")
+                        
                 else:
                     break
 
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         temp = list(self.guest.items())
         for i in range(0, len(temp)):
-
-            flag = False
 
             if temp[i][1] == f_name and temp[i][2] == l_name and temp[i][3] == age:
                     
                 key = temp[i][0]
 
-                try:
-                    id = input("enter id number: ")
-                except KeyboardInterrupt or EOFError:
-                    action("invalid value")
-                    flag = True
+                id = ''
+                flag, id = error.try_except(id, "enter id number: ")
 
-            if not flag:
-                
-                # invalid id number
-
-                if error.just_number(id) == False:
-                    action("Numbers Only")
-
-                elif error.length(id, 9) == False:
-                    action("ID must be exactly nine digits long")
+                if flag:
+                    error.action("enter a valid value")
+                  
 
                 else:
-                    self.guest.pop(key)
-                    self.guest[id] = f_name, l_name, age
-                    action("guest id changed successfully")        # success
-                    return
+                    
+                    # invalid id number
+
+                    if error.just_number(id) == False:
+                        error.action("only number is allowed")
+
+                    elif error.length(id, 9) == False:
+                        error.action("ID must be exactly nine digits long")
+
+                    else:
+                        self.guest.pop(key)
+                        self.guest[id] = f_name, l_name, age
+                        print("guest id changed successfully")        # success
+                        return
                     
         print("no such gues exist")
 
@@ -508,105 +488,106 @@ class Hotel:
     #######################################################
 
 
-    def change_other(self) -> None:
+    def change_other(self) -> None:     # changing first name, last name, age
             
         while True:
                 
             # entering first name
 
-            flag = False
+            f_name = ''     # f_name = first name
+            flag, f_name = error.try_except(f_name, "enter first name: ")
 
-            try:
-                f_name = input("enter first name: ")        # f_name = first name
-            except KeyboardInterrupt or EOFError:
-                action("enter a valid value")
-                flag = True
+            if flag:
+                error.action("enter a valid value")
 
-            if not flag:
+            else:
 
                 # invalid character for first name
 
                 if error.just_str(f_name) == False:
-                    action("invalid chracter for first name section")
+                    error.action("invalid chracter for first name section")
 
                 else:
                     break
 
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         while True:
 
             # entering last name
 
-            flag = False
-            try:
-                l_name = input("enter last name: ")     # l_name = last name
-            except KeyboardInterrupt or EOFError:
-                action("invalid value")
-                flag = True
+            l_name = ''     # l_name = last name
+            flag, l_name = error.try_except(l_name, "enter last name: ")
 
-            if not flag:
+            if flag:
+                error.action("enter a valid value")
+
+            else:
 
                 # invalid character for last name
 
                 if error.just_str(l_name) == False:
-                    action("invalid character for last name section")
+                    error.action("invalid character for last name section")
 
                 else:
                     break
 
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         while True:
-            flag = False
 
             # entering age
 
-            try:
-                age = input("enter age: ")
-            except KeyboardInterrupt or EOFError:
-                action("invalid value entered")
-                flag = True
+            age = ''
+            flag, age = error.time(age, "enter age: ")
 
-            if not flag:
+            if flag:
+                error.action("enter a valid value")
+
+            else:
 
                 # invalid chracter in age
 
                 if error.just_number(age) == False:
-                    action("Numbers Only")
+                    error.action("only number is allowed")
                     
                 else:
                     break
 
-        #######################################################
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
         while True:
 
             # entering id
 
-            flag = False
+            # flag = False
 
-            try:
-                id = input("enter id number: ")
-            except KeyboardInterrupt or EOFError:
-                action("invalid value")
-                flag = True
+            # try:
+            #     id = input("enter id number: ")
+            # except KeyboardInterrupt or EOFError:
+            #     action("invalid value")
+            #     flag = True
+            id = ''
+            flag, id = error.try_except(id, "enter id: ")
 
-            if not flag:
+            if flag:
+                error.action("enter a valid value")
+
+            else:
 
                 # invalid character in id
 
                 if error.just_number(id) == False:
-                    action("Numbers Only")
+                    error.action("only number is allowed")
 
                 elif error.length(id, 9) == False:
-                    action("ID must be exactly nine digits long")
+                    error.action("ID must be exactly nine digits long")
 
                 else:
                     break
 
         self.guest.update({id: (f_name, l_name, age)})
-        action("guest info updated successfully")       # success          
+        print("guest info updated successfully")       # success          
 
                 
 #######################################################
@@ -620,11 +601,11 @@ while True:
         x = input()
 
         if error.just_number(x) == False:
-            action("enter a valid value")
+            error.action("enter a valid value")
             break
 
         elif error.length(x, 1) == False:
-            action("enter a valid value")
+            error.action("enter a valid value")
             break
 
         temp = Hotel()
@@ -650,10 +631,11 @@ while True:
 
         if int(x) == 6:
             os.system('cls')
-            try:
-                y = input("if you want to change id number enter \'i\' or else enter \'o\' \n")
-            except KeyboardInterrupt or EOFError:
-                action("enter a valid value")
+            y = ''
+            flag, y = error.try_except(y, "if you want to change id number enter \'i\' or else enter \'o\' \n")
+
+            if flag:
+                error.action("enter a valid value")
                 break
 
             if y == 'i':
@@ -665,5 +647,5 @@ while True:
                 temp.change_other()
             
             else:
-                action("wrong letter")
+                print("wrong letter")
                 break 
