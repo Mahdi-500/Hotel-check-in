@@ -560,13 +560,6 @@ class Hotel:
 
             # entering id
 
-            # flag = False
-
-            # try:
-            #     id = input("enter id number: ")
-            # except KeyboardInterrupt or EOFError:
-            #     action("invalid value")
-            #     flag = True
             id = ''
             flag, id = error.try_except(id, "enter id: ")
 
