@@ -12,6 +12,103 @@ class Hotel:
         self.guest = guest_info
         self.room_info = room_info
 
+
+    def personal_info() -> str:
+        
+        while True:
+                
+            # entering first name
+
+            f_name = ''     # f_name = first name
+            flag, f_name = error.try_except(f_name, "first name: ")
+
+            if flag:
+                error.action("enter a valid value")
+
+            else:
+                # invalid character for first name
+
+                if error.just_str(f_name) == False:
+                    error.action("invalid chracter for first name section")
+
+                else:
+                    break
+
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+        while True:
+
+            # entering last name
+
+            l_name = ''         # l_name = last name
+            flag, l_name = error.try_except(l_name, "last name: ")
+
+            if flag:
+                error.action("enter a valid value")
+
+            else:
+
+                # invalid character for last name
+
+                if error.just_str(l_name) == False:
+                        error.action("invalid character for last name section")
+
+                else:
+                    break
+
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+        while True:
+
+            # entering age
+
+            age = ''
+            flag, age = error.try_except(age, "enter age: ")
+
+            if flag:
+                error.action("enter a valid value")
+
+            else:
+
+                # invalid chracter in age
+
+                if error.just_number(age) == False:
+                    error.action("only number is allowed")
+                        
+                else:
+                    break
+
+        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+        while True:
+
+            # entering id
+
+            id = ''
+            flag, id = error.try_except(id, "enter id number: ")
+
+            if flag:
+                error.action("enter a valid value")
+
+            else:
+
+                # invalid character in id
+
+                if error.just_number(id) == False:
+                    error.action("only number is allowed")
+
+                elif error.length(id, 9) == False:
+                    error.action("ID must be exactly nine digits long")
+
+                else:
+                    break
+        
+        return f_name, l_name, age, id
+
+
+    ########################################################
+
+            
     def register(self) -> None:
         while True:
 
@@ -26,8 +123,11 @@ class Hotel:
             # invalid room type
 
             else:
-                if error.just_number(room_type) == False or error.length(room_type, 1) == False:
+                if error.just_number(room_type) == False:
                     error.action("only number is allowed")
+
+                elif error.length(room_type, 1) == False:
+                    error.action("only one digit number is allowed")
 
                 elif int(room_type) not in list(self.room.keys()):
                     error.action("invalid room type")
@@ -50,8 +150,11 @@ class Hotel:
             else:
                 # invalid room number
 
-                if error.just_number(room_number) == False or error.length(room_number, 3) == False:
+                if error.just_number(room_number) == False:
                     error.action("only number is allowed")
+
+                elif error.length(room_number, 3) == False:
+                    error.action("only a 3 digit number is allowed")
 
                 elif int(room_number) not in self.room[int(room_type)]:
                     error.action("wrong room number for room type")
@@ -75,7 +178,7 @@ class Hotel:
 
             if flag:
                 error.action("enter a valid value")
-            days = days + "day(s)"
+            days = days + "days"
 
             if not flag:
 
@@ -100,8 +203,9 @@ class Hotel:
 
             if flag:
                 error.action("enter a valid value")
+            nights = nights + "nights"
 
-            else:
+            if not flag:
                 # invalid number
 
                 if error.str_int(nights) == False:
@@ -118,94 +222,8 @@ class Hotel:
         i = 0
         temp_dic = []                    # for adding more than one id number to a room number key
         while i < int(room_type):    # user enters requested data
-
-            while True:
-                
-                # entering first name
-
-                f_name = ''     # f_name = first name
-                flag, f_name = error.try_except(f_name, "first name: ")
-
-                if flag:
-                    error.action("enter a valid value")
-
-                else:
-                    # invalid character for first name
-
-                    if error.just_str(f_name) == False:
-                        error.action("invalid chracter for first name section")
-
-                    else:
-                        break
-
-            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
-            while True:
-
-                # entering last name
-
-                l_name = ''         # l_name = last name
-                flag, l_name = error.try_except(l_name, "last name: ")
-
-                if flag:
-                    error.action("enter a valid value")
-
-                else:
-
-                    # invalid character for last name
-
-                    if error.just_str(l_name) == False:
-                            error.action("invalid character for last name section")
-
-                    else:
-                        break
-
-            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
-            while True:
-
-                # entering age
-
-                age = ''
-                flag, age = error.try_except(age, "enter age: ")
-
-                if flag:
-                    error.action("enter a valid value")
-
-                else:
-
-                    # invalid chracter in age
-
-                    if error.just_number(age) == False:
-                        error.action("only number is allowed")
-                        
-                    else:
-                        break
-
-            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
-            while True:
-
-                # entering id
-
-                id = ''
-                flag, id = error.try_except(id, "enter id number: ")
-
-                if flag:
-                    error.action("enter a valid value")
-
-                else:
-
-                    # invalid character in id
-
-                    if error.just_number(id) == False:
-                        error.action("only number is allowed")
-
-                    elif error.length(id, 9) == False:
-                        error.action("ID must be exactly nine digits long")
-
-                    else:
-                        break
+            
+            f_name, l_name, age, id = Hotel.personal_info()
 
             self.guest[id] = f_name, l_name, age
             temp_dic.append(id)
@@ -236,8 +254,11 @@ class Hotel:
 
             else:
 
-                if error.just_number(room_type) == False or error.length(room_type, 1) == False:
+                if error.just_number(room_type) == False:
                     error.action("only number is allowed")
+
+                elif error.length(room_type, 1) == False:
+                    error.action("only one digit number is allowed")
 
                 # invalid room type
 
@@ -263,8 +284,11 @@ class Hotel:
 
                 # invalid room number
 
-                if error.just_number(room_number) == False or error.length(room_number, 3) == False:
+                if error.just_number(room_number) == False:
                     error.action("invalid character in room number")
+
+                elif error.length(room_number, 3) == False:
+                    error.action("only 3 digit number is allowed")
 
                 elif int(room_number) not in self.room[int(room_type)]:
                     error.action("wrong room number for room type")
@@ -334,8 +358,11 @@ class Hotel:
 
                 # invalid room number
 
-                if error.just_number(room_number) == False or error.length(room_number, 3) == False:
+                if error.just_number(room_number) == False:
                     error.action("only number is allowed")
+
+                elif error.length(room_number, 3) == False:
+                    error.action("only 3 digit number is allowed")
 
                 elif room_number not in self.room_info.keys():
                     error.action("no such Room Found")
@@ -384,74 +411,14 @@ class Hotel:
 
 
         
-    def change_id(self) -> None:
+    def change_id(self) -> None:      
 
-        while True:
+        # getting info
 
-            # entering first name
+        f_name, l_name, age, id = Hotel.personal_info()
 
-            f_name = ''     # f_name = first name
-            flag, f_name = error.try_except(f_name, "enter first name: ")
-
-            if flag:
-                error.action("enter a valid value")
-
-            else:
-
-                # invalid character for first name
-
-                if error.just_str(f_name) == False:
-                    error.action("invalid chracter for first name section")
-
-                else:
-                    break
-
-        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
-        while True:
-
-            # entering last name
-
-            l_name = ''
-            flag, l_name = error.try_except(l_name, "enter last name: ")
-
-            if flag:
-                error.action("enter a valid value")
-
-            else:
-
-                # invalid character for last name
-
-                if error.just_str(l_name) == False:
-                    error.action("invalid character for last name section")
-
-                else:
-                    break
-
-        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
-        while True:
-
-            # entering age
-
-            age = ''
-            flag, age = error.try_except(age, "enter age: ")
-
-            if flag:
-                error.action("enter a valid value")
-
-            else:
-                
-                # invalid chracter for age
-
-                if error.just_number(age) == False:
-                    error.action("only number is allowed")
-                        
-                else:
-                    break
-
-        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
+        # finding the id of guest
+        
         temp = list(self.guest.items())
         for i in range(0, len(temp)):
 
@@ -459,28 +426,10 @@ class Hotel:
                     
                 key = temp[i][0]
 
-                id = ''
-                flag, id = error.try_except(id, "enter id number: ")
-
-                if flag:
-                    error.action("enter a valid value")
-                  
-
-                else:
-                    
-                    # invalid id number
-
-                    if error.just_number(id) == False:
-                        error.action("only number is allowed")
-
-                    elif error.length(id, 9) == False:
-                        error.action("ID must be exactly nine digits long")
-
-                    else:
-                        self.guest.pop(key)
-                        self.guest[id] = f_name, l_name, age
-                        print("guest id changed successfully")        # success
-                        return
+                self.guest.pop(key)
+                self.guest[id] = f_name, l_name, age
+                print("guest id changed successfully")        # success
+                return
                     
         print("no such gues exist")
 
@@ -489,95 +438,10 @@ class Hotel:
 
 
     def change_other(self) -> None:     # changing first name, last name, age
-            
-        while True:
-                
-            # entering first name
-
-            f_name = ''     # f_name = first name
-            flag, f_name = error.try_except(f_name, "enter first name: ")
-
-            if flag:
-                error.action("enter a valid value")
-
-            else:
-
-                # invalid character for first name
-
-                if error.just_str(f_name) == False:
-                    error.action("invalid chracter for first name section")
-
-                else:
-                    break
-
-        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
-        while True:
-
-            # entering last name
-
-            l_name = ''     # l_name = last name
-            flag, l_name = error.try_except(l_name, "enter last name: ")
-
-            if flag:
-                error.action("enter a valid value")
-
-            else:
-
-                # invalid character for last name
-
-                if error.just_str(l_name) == False:
-                    error.action("invalid character for last name section")
-
-                else:
-                    break
-
-        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
-        while True:
-
-            # entering age
-
-            age = ''
-            flag, age = error.time(age, "enter age: ")
-
-            if flag:
-                error.action("enter a valid value")
-
-            else:
-
-                # invalid chracter in age
-
-                if error.just_number(age) == False:
-                    error.action("only number is allowed")
-                    
-                else:
-                    break
-
-        #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-
-        while True:
-
-            # entering id
-
-            id = ''
-            flag, id = error.try_except(id, "enter id: ")
-
-            if flag:
-                error.action("enter a valid value")
-
-            else:
-
-                # invalid character in id
-
-                if error.just_number(id) == False:
-                    error.action("only number is allowed")
-
-                elif error.length(id, 9) == False:
-                    error.action("ID must be exactly nine digits long")
-
-                else:
-                    break
+        
+        # getting info
+        
+        f_name, l_name, age, id = Hotel.personal_info()
 
         self.guest.update({id: (f_name, l_name, age)})
         print("guest info updated successfully")       # success          
